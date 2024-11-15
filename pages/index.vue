@@ -322,7 +322,7 @@
       getLocalData() {
         let userName = window.localStorage.getItem("userName");
         let playerStats = window.localStorage.getItem("playerStats");
-        let openings = getSavedOpeningsData()
+        let openings = getSavedOpeningsData(); // added ; 
         let archivedGames = getArchivedGames(); 
       
 

@@ -5,16 +5,19 @@ export default defineNuxtConfig({
   components: true,
   debug: true,
   ssr: false,
+
   css: [
     'bootstrap/dist/css/bootstrap.css',
     '~/assets/main.css',
     '~/assets/buttons.css',
     '@fortawesome/fontawesome-svg-core/styles.css'
   ],
+
   plugins: [
     { src: '~/plugins/bootstrap.js', mode: 'client'},
     { src: '~/plugins/fontawesome.js', mode: 'client'}
   ],
+
   app:{
     head: {
       script: [
@@ -45,6 +48,7 @@ export default defineNuxtConfig({
       ],
     },
 
-  } 
-  
+  },
+
+  compatibilityDate: '2024-11-11'
 })
