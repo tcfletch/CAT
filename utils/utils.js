@@ -96,7 +96,7 @@ export function getLargestTimeClass() {
 }
 
 
-export async function fetchUserStats(userName) {
+export async function fetchUserStats(userName, userName2) {
     let playerStatsUrl = `https://api.chess.com/pub/player/${userName}/stats`;
     
     try {
@@ -107,7 +107,7 @@ export async function fetchUserStats(userName) {
         throw new Error(`HTTP error! status: ${playerStatsRes.status}`);
       }
   
-      return playerStatsRes;
+      return playerStatsRes; 
     } catch (error) {
       console.error(`There was a problem with the fetch operation: ${error.message}`);
       // Return an error code or a relevant error object
@@ -124,7 +124,7 @@ export async function fetchArchiveUrls(userName) {
 }
 
 export function logAPIRequest(userName) {
-    const apiUri = "https://chessinsights.xyz" 
+    const apiUri = "https://chessinsights.xyz" // wonder if I should change this to the actual api uri
     fetch(`${apiUri}/api/logRequest`, {
         method: 'POST',
         headers: {

@@ -93,13 +93,13 @@
         "./*"
       ],
       "#app": [
-        "../node_modules/nuxt/dist/app"
+        "../../../../node_modules/nuxt/dist/app"
       ],
       "#app/*": [
-        "../node_modules/nuxt/dist/app/*"
+        "../../../../node_modules/nuxt/dist/app/*"
       ],
       "vue-demi": [
-        "../node_modules/nuxt/dist/app/compat/vue-demi"
+        "../../../../node_modules/nuxt/dist/app/compat/vue-demi"
       ],
       "#vue-router": [
         "../node_modules/vue-router"
@@ -150,12 +150,14 @@
     "../node_modules/@nuxt/devtools/dist/runtime",
     "../node_modules/@nuxt/telemetry/runtime",
     "../node_modules/@nuxt/telemetry/dist/runtime",
-    ".."
+    "..",
+    "../../../../node_modules/nuxt/dist/app",
+    "../../../../node_modules/nuxt/dist/app/compat/vue-demi"
   ],
   "exclude": [
     "../dist",
     "../node_modules",
-    "../node_modules/nuxt/node_modules",
+    "../../../../node_modules/nuxt/node_modules",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/devtools/dist/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",

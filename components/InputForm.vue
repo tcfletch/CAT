@@ -17,6 +17,16 @@
                             v-model="userName"
                             class="form-control username-input"
                             > 
+
+                          <input type="text" placeholder="Username 2"
+                            list="gmsList"
+                            id="uname2"
+                            aria-describedby="u-addon" 
+                            autocapitalize="none" 
+                            autocorrect="off"
+                            v-model="userName2"
+                            class="form-control username-input"
+                            >     
                         <span class="input-group-prepend">
                           <button type="submit"
                                   class="btn btn-secondary"
@@ -66,7 +76,8 @@ export default {
   data() {
     return {
       userName: '',
-      invalidUser: false
+      userName2: '',
+      invalidUser: []
     }
   },
   mounted() {
@@ -74,29 +85,51 @@ export default {
   },
   methods: {
     async submitForm() {
-      
+      this.invalidUser = [];
 
-      let res = null;
-      try {
-        res = await fetch(`https://api.chess.com/pub/player/${this.userName}`);
-      } catch (e) {
+      //Array to store the usernames
+
+      let userNames = [this.userName, this.userName2];
+
+      //Check if the userNames are empty
+      if (userNames[0] === '' && userNames[1] === '') {
         this.invalidUser = true;
         this.triggerInvalidUserModal();
+        return;
       }
 
-      if (res !== null && res.status === 200) {
-        this.$emit('get-all-user-data', this.userName);
-      } else {
+      //Check if the userNames are the same
+      if (userNames[0] === userNames[1]) {
         this.invalidUser = true;
         this.triggerInvalidUserModal();
+        return;
+      }
+
+      //Check if the userNames are valid
+      for (let i = 0; i < userNames.length; i++) {
+        let res = null;
+        try {
+          res = await fetch(`https://api.chess.com/pub/player/${userNames[i]}`);
+        } catch (e) {
+          this.invalidUser = true;
+          this.triggerInvalidUserModal();
+        }
+
+        if (res !== null && res.status === 200) {
+          this.$emit('get-all-user-data', userNames[i]);
+        } else {
+          this.invalidUser = true;
+          this.triggerInvalidUserModal();
+        }
       }
 
     },
     closeResetModal() {
       let modal = document.getElementById('invalidUser')
       modal.close();
-      this.invalidUser = false;
+      this.invalidUser = [];
       this.userName = '';
+      this.userName2 = '';
     },
     triggerInvalidUserModal() {
       let modal = document.getElementById('invalidUser')
@@ -135,6 +168,7 @@ export default {
 
     suggestUserInput() {
       const input = document.getElementById("uname");
+      const input2 = document.getElementById("uname2");
       const gms = [
         "nowhere2b",
         "mastoblood",

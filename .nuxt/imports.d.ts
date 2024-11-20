@@ -38,5 +38,5 @@ export { rowsToCsv, exportChessData, showCustomExport, makeCustomExport } from '
 export { calcOpeningsData, saveOpeningsData, getSavedOpeningsData, getWinsAndLossesByOpenings, getOpeningsData, getCounts, filterOpeningsData, processOpeningsData, getMainLine, getOpeningsForExplore } from '../utils/openingsUtils';
 export { fetchTestUserData, importJsonData } from '../utils/userImports';
 export { clearLocalStorage, getPlayerStats, getUserName, utcToHuman, getFormattedTimestamp, getLargestTimeClass, fetchUserStats, fetchArchiveUrls, logAPIRequest, getResult } from '../utils/utils';
-export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
-export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';
+export { useNuxtDevTools } from '../../../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
+export { definePageMeta } from '../../../../node_modules/nuxt/dist/pages/runtime/composables';

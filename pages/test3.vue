@@ -4,7 +4,6 @@
   
     <InputForm 
     @get-all-user-data="getAllUserData" 
-    @get-all-user-data2="getAllUserData2" 
     @read-file-upload="handleFileUpload" 
     />
   
@@ -33,7 +32,7 @@
   
       <UserOverview 
       @update-user-overview="updateOverview($event)" 
-      :userName1="userName1"  
+      :userName="userName"  
       :ovTimeClass="ovTimeClass"
       :ovTotalGames="ovTotalGames" 
       :ovWinPercentage="ovWinPercentage" 

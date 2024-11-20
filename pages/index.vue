@@ -150,7 +150,6 @@
         this.showSpinner = true;
         this.spinnerText = "Fetching user data...";
         this.showProg = true;
-
         let totalGames = 0;
         this.gamesFound = 0;
         this.progress = 0;
