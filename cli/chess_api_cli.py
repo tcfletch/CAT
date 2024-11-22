@@ -14,8 +14,11 @@ def main():
     username2 = sys.argv[2]
 
     # Fetch and save games for both users
-    get_games(username1)
-    get_games(username2)
+    combine_data = {}
+    combine_data[username1]=get_games(username1)
+    combine_data[username2]=get_games(username2)
+
+    save_to_db(combine_data)    
 
 def get_games(user):
     try:
@@ -40,6 +43,17 @@ def get_games(user):
 
     except Exception as e:
         print(f"Error fetching data for {user}: {e}")
+
+def save_to_db(data):
+    try:
+        today = datetime.datetime.now().strftime("%Y-%m-%d")    
+        fname = f"combined_chess_com_{today}.json"
+        with open(fname, "w") as f:
+            json.dump(data, f, indent=4)
+        print(f"Data saved to file: {fname}")
+    except Exception as e:
+        print(f"Error saving data to file: {e}")    
+
 
 if __name__ == "__main__":
     main()

@@ -40,7 +40,6 @@ declare global {
   const getCurrentScope: typeof import('../../node_modules/vue')['getCurrentScope']
   const getFormattedTimestamp: typeof import('../../utils/utils2')['getFormattedTimestamp']
   const getLargestTimeClass: typeof import('../../utils/utils2')['getLargestTimeClass']
-  const getLargestTimeClassForUsers: typeof import('../../utils/utils')['getLargestTimeClassForUsers']
   const getMainLine: typeof import('../../utils/openingsUtils')['getMainLine']
   const getOpeningsData: typeof import('../../utils/openingsUtils')['getOpeningsData']
   const getOpeningsForExplore: typeof import('../../utils/openingsUtils')['getOpeningsForExplore']
@@ -260,7 +259,6 @@ declare module 'vue' {
     readonly getCurrentScope: UnwrapRef<typeof import('../../node_modules/vue')['getCurrentScope']>
     readonly getFormattedTimestamp: UnwrapRef<typeof import('../../utils/utils2')['getFormattedTimestamp']>
     readonly getLargestTimeClass: UnwrapRef<typeof import('../../utils/utils2')['getLargestTimeClass']>
-    readonly getLargestTimeClassForUsers: UnwrapRef<typeof import('../../utils/utils')['getLargestTimeClassForUsers']>
     readonly getMainLine: UnwrapRef<typeof import('../../utils/openingsUtils')['getMainLine']>
     readonly getOpeningsData: UnwrapRef<typeof import('../../utils/openingsUtils')['getOpeningsData']>
     readonly getOpeningsForExplore: UnwrapRef<typeof import('../../utils/openingsUtils')['getOpeningsForExplore']>
