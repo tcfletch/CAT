@@ -7,7 +7,7 @@ declare global {
   const callOnce: typeof import('../../../../../node_modules/nuxt/dist/app/composables/once')['callOnce']
   const cancelIdleCallback: typeof import('../../../../../node_modules/nuxt/dist/app/compat/idle-callback')['cancelIdleCallback']
   const clearError: typeof import('../../../../../node_modules/nuxt/dist/app/composables/error')['clearError']
-  const clearLocalStorage: typeof import('../../utils/utils')['clearLocalStorage']
+  const clearLocalStorage: typeof import('../../utils/utils2')['clearLocalStorage']
   const clearNuxtData: typeof import('../../../../../node_modules/nuxt/dist/app/composables/asyncData')['clearNuxtData']
   const clearNuxtState: typeof import('../../../../../node_modules/nuxt/dist/app/composables/state')['clearNuxtState']
   const computed: typeof import('../../node_modules/vue')['computed']
@@ -29,35 +29,36 @@ declare global {
   const exploreAll: typeof import('../../utils/exploreUtils')['exploreAll']
   const exploreFromAPI: typeof import('../../utils/exploreUtils')['exploreFromAPI']
   const exportChessData: typeof import('../../utils/exportUtils')['exportChessData']
-  const fetchArchiveUrls: typeof import('../../utils/utils')['fetchArchiveUrls']
-  const fetchTestUserData: typeof import('../../utils/userImports')['fetchTestUserData']
-  const fetchUserStats: typeof import('../../utils/utils')['fetchUserStats']
+  const fetchArchiveUrls: typeof import('../../utils/utils2')['fetchArchiveUrls']
+  const fetchTestUserData: typeof import('../../utils/userImports2')['fetchTestUserData']
+  const fetchUserStats: typeof import('../../utils/utils2')['fetchUserStats']
   const filterOpeningsData: typeof import('../../utils/openingsUtils')['filterOpeningsData']
   const getAppManifest: typeof import('../../../../../node_modules/nuxt/dist/app/composables/manifest')['getAppManifest']
   const getArchivedGames: typeof import('../../utils/archiveUtils')['getArchivedGames']
   const getCounts: typeof import('../../utils/openingsUtils')['getCounts']
   const getCurrentInstance: typeof import('../../node_modules/vue')['getCurrentInstance']
   const getCurrentScope: typeof import('../../node_modules/vue')['getCurrentScope']
-  const getFormattedTimestamp: typeof import('../../utils/utils')['getFormattedTimestamp']
-  const getLargestTimeClass: typeof import('../../utils/utils')['getLargestTimeClass']
+  const getFormattedTimestamp: typeof import('../../utils/utils2')['getFormattedTimestamp']
+  const getLargestTimeClass: typeof import('../../utils/utils2')['getLargestTimeClass']
+  const getLargestTimeClassForUsers: typeof import('../../utils/utils')['getLargestTimeClassForUsers']
   const getMainLine: typeof import('../../utils/openingsUtils')['getMainLine']
   const getOpeningsData: typeof import('../../utils/openingsUtils')['getOpeningsData']
   const getOpeningsForExplore: typeof import('../../utils/openingsUtils')['getOpeningsForExplore']
   const getPgnGames: typeof import('../../utils/archiveUtils')['getPgnGames']
-  const getPlayerStats: typeof import('../../utils/utils')['getPlayerStats']
-  const getResult: typeof import('../../utils/utils')['getResult']
+  const getPlayerStats: typeof import('../../utils/utils2')['getPlayerStats']
+  const getResult: typeof import('../../utils/utils2')['getResult']
   const getRouteRules: typeof import('../../../../../node_modules/nuxt/dist/app/composables/manifest')['getRouteRules']
   const getSavedOpeningsData: typeof import('../../utils/openingsUtils')['getSavedOpeningsData']
   const getSecondsBetween: typeof import('../../utils/archiveUtils')['getSecondsBetween']
   const getTotalTimePlayed: typeof import('../../utils/archiveUtils')['getTotalTimePlayed']
-  const getUserName: typeof import('../../utils/utils')['getUserName']
+  const getUserName: typeof import('../../utils/utils2')['getUserName']
   const getWinsAndLossesByOpenings: typeof import('../../utils/openingsUtils')['getWinsAndLossesByOpenings']
   const graphElo: typeof import('../../utils/chartElo')['graphElo']
   const graphResByOpp: typeof import('../../utils/chartResByOpp')['graphResByOpp']
   const graphWinLoss: typeof import('../../utils/chartWinLoss')['graphWinLoss']
   const h: typeof import('../../node_modules/vue')['h']
   const hasInjectionContext: typeof import('../../node_modules/vue')['hasInjectionContext']
-  const importJsonData: typeof import('../../utils/userImports')['importJsonData']
+  const importJsonData: typeof import('../../utils/userImports2')['importJsonData']
   const inject: typeof import('../../node_modules/vue')['inject']
   const injectHead: typeof import('../../node_modules/@unhead/vue')['injectHead']
   const isNuxtError: typeof import('../../../../../node_modules/nuxt/dist/app/composables/error')['isNuxtError']
@@ -70,7 +71,7 @@ declare global {
   const isVue2: typeof import('../../../../../node_modules/nuxt/dist/app/compat/vue-demi')['isVue2']
   const isVue3: typeof import('../../../../../node_modules/nuxt/dist/app/compat/vue-demi')['isVue3']
   const loadPayload: typeof import('../../../../../node_modules/nuxt/dist/app/composables/payload')['loadPayload']
-  const logAPIRequest: typeof import('../../utils/utils')['logAPIRequest']
+  const logAPIRequest: typeof import('../../utils/utils2')['logAPIRequest']
   const makeCustomExport: typeof import('../../utils/exportUtils')['makeCustomExport']
   const makeOpeningsChart: typeof import('../../utils/chartOpenings')['makeOpeningsChart']
   const markRaw: typeof import('../../node_modules/vue')['markRaw']
@@ -197,7 +198,7 @@ declare global {
   const useState: typeof import('../../../../../node_modules/nuxt/dist/app/composables/state')['useState']
   const useTemplateRef: typeof import('../../node_modules/vue')['useTemplateRef']
   const useTransitionState: typeof import('../../node_modules/vue')['useTransitionState']
-  const utcToHuman: typeof import('../../utils/utils')['utcToHuman']
+  const utcToHuman: typeof import('../../utils/utils2')['utcToHuman']
   const verifyLiveChess: typeof import('../../utils/archiveUtils')['verifyLiveChess']
   const watch: typeof import('../../node_modules/vue')['watch']
   const watchEffect: typeof import('../../node_modules/vue')['watchEffect']
@@ -226,7 +227,7 @@ declare module 'vue' {
     readonly callOnce: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/once')['callOnce']>
     readonly cancelIdleCallback: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/compat/idle-callback')['cancelIdleCallback']>
     readonly clearError: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/error')['clearError']>
-    readonly clearLocalStorage: UnwrapRef<typeof import('../../utils/utils')['clearLocalStorage']>
+    readonly clearLocalStorage: UnwrapRef<typeof import('../../utils/utils2')['clearLocalStorage']>
     readonly clearNuxtData: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/asyncData')['clearNuxtData']>
     readonly clearNuxtState: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/state')['clearNuxtState']>
     readonly computed: UnwrapRef<typeof import('../../node_modules/vue')['computed']>
@@ -248,35 +249,36 @@ declare module 'vue' {
     readonly exploreAll: UnwrapRef<typeof import('../../utils/exploreUtils')['exploreAll']>
     readonly exploreFromAPI: UnwrapRef<typeof import('../../utils/exploreUtils')['exploreFromAPI']>
     readonly exportChessData: UnwrapRef<typeof import('../../utils/exportUtils')['exportChessData']>
-    readonly fetchArchiveUrls: UnwrapRef<typeof import('../../utils/utils')['fetchArchiveUrls']>
-    readonly fetchTestUserData: UnwrapRef<typeof import('../../utils/userImports')['fetchTestUserData']>
-    readonly fetchUserStats: UnwrapRef<typeof import('../../utils/utils')['fetchUserStats']>
+    readonly fetchArchiveUrls: UnwrapRef<typeof import('../../utils/utils2')['fetchArchiveUrls']>
+    readonly fetchTestUserData: UnwrapRef<typeof import('../../utils/userImports2')['fetchTestUserData']>
+    readonly fetchUserStats: UnwrapRef<typeof import('../../utils/utils2')['fetchUserStats']>
     readonly filterOpeningsData: UnwrapRef<typeof import('../../utils/openingsUtils')['filterOpeningsData']>
     readonly getAppManifest: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/manifest')['getAppManifest']>
     readonly getArchivedGames: UnwrapRef<typeof import('../../utils/archiveUtils')['getArchivedGames']>
     readonly getCounts: UnwrapRef<typeof import('../../utils/openingsUtils')['getCounts']>
     readonly getCurrentInstance: UnwrapRef<typeof import('../../node_modules/vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('../../node_modules/vue')['getCurrentScope']>
-    readonly getFormattedTimestamp: UnwrapRef<typeof import('../../utils/utils')['getFormattedTimestamp']>
-    readonly getLargestTimeClass: UnwrapRef<typeof import('../../utils/utils')['getLargestTimeClass']>
+    readonly getFormattedTimestamp: UnwrapRef<typeof import('../../utils/utils2')['getFormattedTimestamp']>
+    readonly getLargestTimeClass: UnwrapRef<typeof import('../../utils/utils2')['getLargestTimeClass']>
+    readonly getLargestTimeClassForUsers: UnwrapRef<typeof import('../../utils/utils')['getLargestTimeClassForUsers']>
     readonly getMainLine: UnwrapRef<typeof import('../../utils/openingsUtils')['getMainLine']>
     readonly getOpeningsData: UnwrapRef<typeof import('../../utils/openingsUtils')['getOpeningsData']>
     readonly getOpeningsForExplore: UnwrapRef<typeof import('../../utils/openingsUtils')['getOpeningsForExplore']>
     readonly getPgnGames: UnwrapRef<typeof import('../../utils/archiveUtils')['getPgnGames']>
-    readonly getPlayerStats: UnwrapRef<typeof import('../../utils/utils')['getPlayerStats']>
-    readonly getResult: UnwrapRef<typeof import('../../utils/utils')['getResult']>
+    readonly getPlayerStats: UnwrapRef<typeof import('../../utils/utils2')['getPlayerStats']>
+    readonly getResult: UnwrapRef<typeof import('../../utils/utils2')['getResult']>
     readonly getRouteRules: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/manifest')['getRouteRules']>
     readonly getSavedOpeningsData: UnwrapRef<typeof import('../../utils/openingsUtils')['getSavedOpeningsData']>
     readonly getSecondsBetween: UnwrapRef<typeof import('../../utils/archiveUtils')['getSecondsBetween']>
     readonly getTotalTimePlayed: UnwrapRef<typeof import('../../utils/archiveUtils')['getTotalTimePlayed']>
-    readonly getUserName: UnwrapRef<typeof import('../../utils/utils')['getUserName']>
+    readonly getUserName: UnwrapRef<typeof import('../../utils/utils2')['getUserName']>
     readonly getWinsAndLossesByOpenings: UnwrapRef<typeof import('../../utils/openingsUtils')['getWinsAndLossesByOpenings']>
     readonly graphElo: UnwrapRef<typeof import('../../utils/chartElo')['graphElo']>
     readonly graphResByOpp: UnwrapRef<typeof import('../../utils/chartResByOpp')['graphResByOpp']>
     readonly graphWinLoss: UnwrapRef<typeof import('../../utils/chartWinLoss')['graphWinLoss']>
     readonly h: UnwrapRef<typeof import('../../node_modules/vue')['h']>
     readonly hasInjectionContext: UnwrapRef<typeof import('../../node_modules/vue')['hasInjectionContext']>
-    readonly importJsonData: UnwrapRef<typeof import('../../utils/userImports')['importJsonData']>
+    readonly importJsonData: UnwrapRef<typeof import('../../utils/userImports2')['importJsonData']>
     readonly inject: UnwrapRef<typeof import('../../node_modules/vue')['inject']>
     readonly injectHead: UnwrapRef<typeof import('../../node_modules/@unhead/vue')['injectHead']>
     readonly isNuxtError: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/error')['isNuxtError']>
@@ -289,7 +291,7 @@ declare module 'vue' {
     readonly isVue2: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/compat/vue-demi')['isVue2']>
     readonly isVue3: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/compat/vue-demi')['isVue3']>
     readonly loadPayload: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/payload')['loadPayload']>
-    readonly logAPIRequest: UnwrapRef<typeof import('../../utils/utils')['logAPIRequest']>
+    readonly logAPIRequest: UnwrapRef<typeof import('../../utils/utils2')['logAPIRequest']>
     readonly makeCustomExport: UnwrapRef<typeof import('../../utils/exportUtils')['makeCustomExport']>
     readonly makeOpeningsChart: UnwrapRef<typeof import('../../utils/chartOpenings')['makeOpeningsChart']>
     readonly markRaw: UnwrapRef<typeof import('../../node_modules/vue')['markRaw']>
@@ -416,7 +418,7 @@ declare module 'vue' {
     readonly useState: UnwrapRef<typeof import('../../../../../node_modules/nuxt/dist/app/composables/state')['useState']>
     readonly useTemplateRef: UnwrapRef<typeof import('../../node_modules/vue')['useTemplateRef']>
     readonly useTransitionState: UnwrapRef<typeof import('../../node_modules/vue')['useTransitionState']>
-    readonly utcToHuman: UnwrapRef<typeof import('../../utils/utils')['utcToHuman']>
+    readonly utcToHuman: UnwrapRef<typeof import('../../utils/utils2')['utcToHuman']>
     readonly verifyLiveChess: UnwrapRef<typeof import('../../utils/archiveUtils')['verifyLiveChess']>
     readonly watch: UnwrapRef<typeof import('../../node_modules/vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('../../node_modules/vue')['watchEffect']>

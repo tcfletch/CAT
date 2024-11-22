@@ -17,7 +17,6 @@
                             v-model="userName"
                             class="form-control username-input"
                             > 
-
                           <input type="text" placeholder="Username 2"
                             list="gmsList"
                             id="uname2"
@@ -60,7 +59,7 @@
     </h4>
     
     <p>
-      {{ userName }}
+      {{ userName, userName2 }} is not a valid user. Please enter a valid user.
     </p>
     <button id="closeInvalidUserBtn" @click="closeResetModal">Close</button>
   </dialog>
@@ -77,15 +76,18 @@ export default {
     return {
       userName: '',
       userName2: '',
-      invalidUser: []
+      invalidUser: "",
+      allUserData: [],
     }
   },
   mounted() {
     this.suggestUserInput();
+    this.loadStoredUserData();
   },
   methods: {
     async submitForm() {
-      this.invalidUser = [];
+
+      this.invalidUserMessage = "";
 
       //Array to store the usernames
 
@@ -124,6 +126,28 @@ export default {
       }
 
     },
+
+    storeUserData() {
+      // Save all user data to localStorage
+      localStorage.setItem("userData", JSON.stringify(this.allUserData));
+    },
+
+    loadStoredUserData() {
+      // Load stored user data from localStorage
+      const storedData = JSON.parse(localStorage.getItem("userData")) || [];
+      this.allUserData = storedData;
+    },
+
+    getNextUser() {
+      if (this.allUserData.length > 0) {
+        const nextUser = this.allUserData.shift();
+        alert(`Next User: ${JSON.stringify(nextUser, null, 2)}`);
+        // Keep the data in localStorage unchanged
+      } else {
+        alert("No more stored user data.");
+      }
+    },
+
     closeResetModal() {
       let modal = document.getElementById('invalidUser')
       modal.close();
@@ -212,6 +236,7 @@ export default {
       function enterDown(e) {
         if (e.key === "Enter") {
           this.userName = input.value;
+          this.userName2 = input.value;
           this.submitForm();
         }
       }
@@ -242,7 +267,8 @@ export default {
         }
       }
 
-      suggestInput();
+      suggestInput(input);
+      suggestInput(input2);
       }
   },
 }
