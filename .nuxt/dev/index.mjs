@@ -179,7 +179,7 @@ const _aih6IJe4QN = (function(nitro) {
 
 const rootDir = "/Users/tlaptop/Documents/GitHub/CAT";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"content":"chess, chess insights, chess data, chess.com, pgn, win loss, openings, elo, bulk export, data visualization, free"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicon.ico"}],"style":[],"script":[{"src":"https://www.googletagmanager.com/gtag/js?id=G-RWYGJG4RC3","async":true},{"innerHTML":"\n            window.dataLayer = window.dataLayer || [];\n            function gtag(){dataLayer.push(arguments);}\n            gtag('js', new Date());\n            gtag('config', 'G-RWYGJG4RC3');\n          ","type":"text/javascript"}],"noscript":[],"title":"Free Chess.com Insights"};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"content":"chess, chess insights, chess data, chess.com, pgn, win loss, openings, elo, bulk export, data visualization, free"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicon.ico"}],"style":[],"script":[{"src":"https://www.googletagmanager.com/gtag/js?id=G-RWYGJG4RC3","async":true},{"innerHTML":"\n            window.dataLayer = window.dataLayer || [];\n            function gtag(){dataLayer.push(arguments);}\n            gtag('js', new Date());\n            gtag('config', 'G-RWYGJG4RC3');\n          ","type":"text/javascript"}],"noscript":[],"title":"Free Chess.com Comparative Insights"};
 
 const appRootTag = "div";
 

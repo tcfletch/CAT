@@ -1,5 +1,3 @@
-
-
 import { clearLocalStorage } from "~/utils/utils.js";
 
 export async function fetchTestUserData(testDataPath){

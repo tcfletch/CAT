@@ -35,7 +35,7 @@ export default defineNuxtConfig({
           type: 'text/javascript',
         }
       ],
-      title: 'Free Chess.com Insights',
+      title: 'Free Chess.com Comparative Insights',
       meta: [
         { charset: 'utf-8' },
         { 
