@@ -30,48 +30,97 @@
       </div>
     </div>
 
+
+    <div class="user-charts-container">
+      <h3 class="text-center">User 1: {{ userName1 }}</h3>
+    
     <UserOverview 
-    @update-user-overview="updateOverview($event)" 
-    :userName="userName" 
-    :ovTimeClass="ovTimeClass"
-    :ovTotalGames="ovTotalGames" 
-    :ovWinPercentage="ovWinPercentage" 
-    :ovWinCount="ovWinCount"
-    :ovDrawPercentage="ovDrawPercentage" 
-    :ovDrawCount="ovDrawCount" 
-    :ovLossPercentage="ovLossPercentage"
-    :ovLossCount="ovLossCount"
-    :ovTimePlayed="ovTimePlayed" 
+    @update-user-overview="updateOverview($event, 'user1')" 
+    :userName="userName1" 
+    :ovTimeClass="user1.ovTimeClass"
+    :ovTotalGames="user1.ovTotalGames" 
+    :ovWinPercentage="user1.ovWinPercentage" 
+    :ovWinCount="user1.ovWinCount"
+    :ovDrawPercentage="user1.ovDrawPercentage" 
+    :ovDrawCount="user1.ovDrawCount" 
+    :ovLossPercentage="user1.vLossPercentage"
+    :ovLossCount="user1.ovLossCount"
+    :ovTimePlayed="user1.ovTimePlayed" 
     />
 
     <ChartsEloOverTimeChart 
-    @update="writeEloOverTime($event)" 
-    :timeClass="eloTimeClass" />
+    @update="writeEloOverTime($event, 'user1')" 
+    :timeClass="user1.eloTimeClass" />
 
     <ChartsOpeningChart
-    @update-time-class="openingsTimeClass = $event" 
-    @update-color="openingsColor = $event" 
-    :timeClass="openingsTimeClass" 
-    :color="openingsColor" />
+    @update-time-class="user1.openingsTimeClass = $event" 
+    @update-color="user1.openingsColor = $event" 
+    :timeClass="user1.openingsTimeClass" 
+    :color="user1.openingsColor" />
 
     <ChartsResByRating
-    :timeClass="resByOppTimeClass" 
-    @updateResByOpp="resByOppTimeClass = $event" />
+    :timeClass="user1.resByOppTimeClass" 
+    @updateResByOpp="user1.resByOppTimeClass = $event" />
 
     <ChartsWinChart 
-    @updateWin="winTimeClass = $event" 
-    :timeClass="winTimeClass" />
+    @updateWin="user1.winTimeClass = $event" 
+    :timeClass="user1.winTimeClass" />
 
     <ChartsLossChart 
-    @updateLoss="lossTimeClass = $event" 
-    :timeClass="lossTimeClass" 
+    @updateLoss="user1.lossTimeClass = $event" 
+    :timeClass="user1.lossTimeClass" 
     />
 
     <ChartsDrawChart 
-    @updateDraw="drawTimeClass = $event" 
-    :timeClass="drawTimeClass" 
+    @updateDraw="user1.drawTimeClass = $event" 
+    :timeClass="user1.drawTimeClass" 
+    />
+  </div>
+  <div class="user-charts-container">
+      <h3 class="text-center">User 2: {{ userName2 }}</h3>
+    
+    <UserOverview 
+    @update-user-overview="updateOverview($event, 'user2')" 
+    :userName="userName2" 
+    :ovTimeClass="user2.ovTimeClass"
+    :ovTotalGames="user2.ovTotalGames" 
+    :ovWinPercentage="user2.ovWinPercentage" 
+    :ovWinCount="user2.ovWinCount"
+    :ovDrawPercentage="user2.ovDrawPercentage" 
+    :ovDrawCount="user2.ovDrawCount" 
+    :ovLossPercentage="user2.ovLossPercentage"
+    :ovLossCount="user2.ovLossCount"
+    :ovTimePlayed="user2.vTimePlayed" 
     />
 
+    <ChartsEloOverTimeChart 
+    @update="writeEloOverTime($event, 'user2')" 
+    :timeClass="user2.eloTimeClass" />
+
+    <ChartsOpeningChart
+    @update-time-class="user2.openingsTimeClass = $event" 
+    @update-color="user2.openingsColor = $event" 
+    :timeClass="user2.openingsTimeClass" 
+    :color="user2.openingsColor" />
+
+    <ChartsResByRating
+    :timeClass="user2.resByOppTimeClass" 
+    @updateResByOpp="user2.resByOppTimeClass = $event" />
+
+    <ChartsWinChart 
+    @updateWin="user2.winTimeClass = $event" 
+    :timeClass="user2.winTimeClass" />
+
+    <ChartsLossChart 
+    @updateLoss="user2.lossTimeClass = $event" 
+    :timeClass="user2.lossTimeClass" 
+    />
+
+    <ChartsDrawChart 
+    @updateDraw="user2.drawTimeClass = $event" 
+    :timeClass="user2.drawTimeClass" 
+    />
+  </div>
     <ExportPopup />
 
 
@@ -105,29 +154,48 @@
     name: "HomePage",
     data() {
       return {
-        userName: '',
+        userName1: 'User1',
+        userName2: 'User2',
+        user1: {
+          ovTimeClass: null,
+          ovTotalGames: null,
+          ovWinPercentage: null,
+          ovDrawPercentage: null,
+          ovDrawCount: null,
+          ovLossPercentage: null,
+          ovLossCount: null,
+          ovTimePlayed: null,
+          eloTimeClass: null,
+          openingsTimeClass: null,
+          openingsColor: null,
+          resByOppTimeClass: null,
+          winTimeClass: null,
+          lossTimeClass: null,
+          drawTimeClass: null,
+        },
+        user2: {
+          ovTimeClass: null,
+          ovTotalGames: null,
+          ovWinPercentage: null,
+          ovDrawPercentage: null,
+          ovDrawCount: null,
+          ovLossPercentage: null,
+          ovLossCount: null,
+          ovTimePlayed: null,
+          eloTimeClass: null,
+          openingsTimeClass: null,
+          openingsColor: null,
+          resByOppTimeClass: null,
+          winTimeClass: null,
+          lossTimeClass: null,
+          drawTimeClass: null,
+        },
         showSpinner: false,
         spinnerText: "",
         showProg: false,
-        showCharts: false,
-        gamesFound: 0,
         progress: 0,
-        totalUserGames: 0,
-        eloTimeClass: '',
-        resByOppTimeClass: 'all',
-        lossTimeClass: 'all',
-        winTimeClass: 'all',
-        drawTimeClass: 'all',
-        ovTimeClass: '',
-        ovUserGames: 0,
-        ovWinPercentage: 0,
-        ovWinCount: 0,
-        ovDrawCount: 0,
-        ovDrawPercentage: 0,
-        ovLossCount: 0,
-        ovLossPercentage: 0,
-        ovTotalGames: 0,
-        ovTimePlayed: 0,
+        gamesFound: 0,
+        showCharts: false,
       }
     },
 

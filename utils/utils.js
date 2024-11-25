@@ -96,74 +96,32 @@ export function getLargestTimeClass() {
 }
 
 
-export async function fetchUserStats(userName1, userName2) {
-
-    const usersData = {};
-
-    async function fetchStats(userName) {
-
-        const playerStatsUrl = `https://api.chess.com/pub/player/${userName}/stats`;
+export async function fetchUserStats(userName) {
+    let playerStatsUrl = `https://api.chess.com/pub/player/${userName}/stats`;
     
-         try {
-
-            const response = await fetch(playerStatsUrl);
+    try {
+      let playerStatsRes = await fetch(playerStatsUrl);
   
-            // Add a check to see if the fetch request was successful
-            if (!response.ok) {
-             throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-            const stats = await response.json();
-            return stats;
-        
-         } catch (error) {
-            console.error(`There was a problem with the fetch operation: ${error.message}`);
-            // Return an error code or a relevant error object
-            return { error: true, message: error.message };
-        }
+      // Add a check to see if the fetch request was successful
+      if (!playerStatsRes.ok) {
+        throw new Error(`HTTP error! status: ${playerStatsRes.status}`);
+      }
+  
+      return playerStatsRes; 
+    } catch (error) {
+      console.error(`There was a problem with the fetch operation: ${error.message}`);
+      // Return an error code or a relevant error object
+      return { error: true, message: error.message };
     }
+  }
 
-    usersData[userName1] = await fetchStats(userName1);
-    usersData[userName2] = await fetchStats(userName2);
 
-    localStorage.setItem('usersData', JSON.stringify(usersData));
-    console.log('Data for ${userName1} and ${userName2}');
-    return usersData;
+// gets all games ever played by user
+export async function fetchArchiveUrls(userName) {
+    let archiveUrl = `https://api.chess.com/pub/player/${userName}/games/archives`;
+    let response = await fetch(archiveUrl);
+    return response; 
 }
-
-    // gets all games ever played by user
-    export async function fetchArchiveUrls(userName1, userName2) {
-        const archivesData = {};
-    
-        async function fetchArchives(userName) {
-            const archiveUrl = `https://api.chess.com/pub/player/${userName}/games/archives`;
-    
-            try {
-                const response = await fetch(archiveUrl);
-    
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-    
-                const archives = await response.json();
-                return archives;
-            } catch (error) {
-                console.error(`Failed to fetch archives for ${userName}: ${error.message}`);
-                return { error: true, message: error.message };
-            }
-        }
-    
-        // Fetch archives for both users
-        archivesData[userName1] = await fetchArchives(userName1);
-        archivesData[userName2] = await fetchArchives(userName2);
-    
-        // Save to localStorage
-        localStorage.setItem('archivesData', JSON.stringify(archivesData));
-        console.log(`Archives for ${userName1} and ${userName2} stored in localStorage.`);
-    
-        return archivesData;
-    }
-
 
 export function logAPIRequest(userName) {
     const apiUri = "https://chessinsights.xyz" // wonder if I should change this to the actual api uri
