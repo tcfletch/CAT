@@ -1,5 +1,3 @@
-
-
 import { parseAndSaveArchivedGames, verifyLiveChess } from "~/utils/archiveUtils.js";
 import { getResult } from "~/utils/utils.js";
 import { getMainLine } from "~/utils/openingsUtils.js"
@@ -44,13 +42,11 @@ export function exploreAll(games) {
     return gridData;
 }
 
-export async function exploreFromAPI(  userName ) {
+export async function exploreFromAPI(  userName , userName2) {
     
     let playerStatsUrl = `https://api.chess.com/pub/player/${userName}/stats`;
     let playerStatsRes = await fetch(playerStatsUrl);
     let playerStats = await playerStatsRes.json();
-
-    console.log(playerStatsRes.status);
 
     // I'm not sure about type coercion here
     if (playerStatsRes.status != 404) {
@@ -89,5 +85,7 @@ export async function exploreFromAPI(  userName ) {
     inlineStorage.textContent = JSON.stringify(archivedGames);
     appDiv.appendChild(inlineStorage);
     parseAndSaveArchivedGames(archivedGames);
+    return totalGames;
 
+    
 }

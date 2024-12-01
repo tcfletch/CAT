@@ -4,8 +4,8 @@
     <img id="chesslogo"
                         src="../assets/chesslogo.png"
                         width="300">
-    <h1>Free Chess.com Insights</h1>
-    <p style="text-align:center">Enter your chess.com username to generate a full export of your games.</p>
+    <h1>Free Chess.com Comparable Insights</h1>
+    <p style="text-align:center">Enter two chess.com usernames to generate a full report of compared games.</p>
 
     <div class="input-group input-group-lg input-group--username">
                         <input type="text" placeholder="Username"
@@ -17,7 +17,7 @@
                             v-model="userName"
                             class="form-control username-input"
                             > 
-                          <input type="text" placeholder="Username 2"
+                          <input type="text" placeholder="Username"
                             list="gmsList"
                             id="uname2"
                             aria-describedby="u-addon" 
@@ -25,13 +25,13 @@
                             autocorrect="off"
                             v-model="userName2"
                             class="form-control username-input"
-                            >     
+                            >  
                         <span class="input-group-prepend">
                           <button type="submit"
                                   class="btn btn-secondary"
                                   id="unameBtn"
-                                  @click="submitForm()">
-                                  Get Insights 
+                                  @click="submitForm()"> 
+                                  Compare Users
                           </button>
                           <button type="button"
                                   class="btn btn-secondary"
@@ -72,122 +72,102 @@
 import { importJsonData } from '~/utils/userImports.js';
 
 export default {
+  name: 'InputForm',
+  props: {
+    storedUserData: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       userName: '',
       userName2: '',
-      invalidUser: "",
-      allUserData: [],
-    }
+      invalidUser: false,
+      invalidUserMessage: "",
+      allUserData: [...this.storedUserData], // Initialize with parent-provided data
+    };
   },
   mounted() {
     this.suggestUserInput();
-    this.loadStoredUserData();
   },
   methods: {
     async submitForm() {
-
       this.invalidUserMessage = "";
+      this.invalidUser = false;
 
-      //Array to store the usernames
+      const userNames = [this.userName, this.userName2];
 
-      let userNames = [this.userName, this.userName2];
-
-      //Check if the userNames are empty
+      // Check if both usernames are empty
       if (userNames[0] === '' && userNames[1] === '') {
         this.invalidUser = true;
+        this.invalidUserMessage = "Both usernames cannot be empty.";
         this.triggerInvalidUserModal();
         return;
       }
 
-      //Check if the userNames are the same
+      // Check if the usernames are the same
       if (userNames[0] === userNames[1]) {
         this.invalidUser = true;
+        this.invalidUserMessage = "Usernames cannot be the same.";
         this.triggerInvalidUserModal();
         return;
       }
 
-      //Check if the userNames are valid
+      const userDataArray = [];
+
+      // Validate usernames and fetch data
       for (let i = 0; i < userNames.length; i++) {
+        const userName = userNames[i];
         let res = null;
+
         try {
-          res = await fetch(`https://api.chess.com/pub/player/${userNames[i]}`);
-        } catch (e) {
+          res = await fetch(`https://api.chess.com/pub/player/${userName}`);
+        } catch (error) {
+          console.error(`Error fetching user data for ${userName}:`, error);
           this.invalidUser = true;
+          this.invalidUserMessage = `Error fetching data for ${userName}.`;
           this.triggerInvalidUserModal();
+          return;
         }
 
         if (res !== null && res.status === 200) {
-          this.$emit('get-all-user-data', userNames[i]);
+          const userStats = await res.json();
+          userDataArray.push({
+            id: i + 1,
+            userName,
+            stats: userStats,
+          });
         } else {
           this.invalidUser = true;
+          this.invalidUserMessage = `${userName} is not a valid user.`;
           this.triggerInvalidUserModal();
+          return;
         }
       }
 
+      // Save all user data locally and emit it to the parent
+      this.allUserData = userDataArray;
+      this.storeUserData();
+      importJsonData(this.allUserData); // Call to save data to utils
+      this.$emit('submit-success', this.allUserData);
     },
 
     storeUserData() {
-      // Save all user data to localStorage
       localStorage.setItem("userData", JSON.stringify(this.allUserData));
     },
 
-    loadStoredUserData() {
-      // Load stored user data from localStorage
-      const storedData = JSON.parse(localStorage.getItem("userData")) || [];
-      this.allUserData = storedData;
-    },
-
-    getNextUser() {
-      if (this.allUserData.length > 0) {
-        const nextUser = this.allUserData.shift();
-        alert(`Next User: ${JSON.stringify(nextUser, null, 2)}`);
-        // Keep the data in localStorage unchanged
-      } else {
-        alert("No more stored user data.");
-      }
-    },
-
     closeResetModal() {
-      let modal = document.getElementById('invalidUser')
+      const modal = document.getElementById('invalidUser');
       modal.close();
-      this.invalidUser = [];
+      this.invalidUser = false;
       this.userName = '';
       this.userName2 = '';
     },
+
     triggerInvalidUserModal() {
-      let modal = document.getElementById('invalidUser')
+      const modal = document.getElementById('invalidUser');
       modal.showModal();
-    },
-    uploadFile() {
-      let inputElement = document.createElement("input");
-      inputElement.type = "file";
-      inputElement.accept = ".json";
-      inputElement.click();
-
-      inputElement.addEventListener("change", (event) => {
-        if (event.target.files.length > 0) {
-          let reader = new FileReader();
-          reader.onload = (event) => {
-            try {
-              let json = JSON.parse(event.target.result);
-              importJsonData(json);
-              this.$emit('read-file-upload');
-            } catch(e) {
-              alert("The file could not be parsed as JSON. Please read documentation for more information.");
-              console.error("The file could not be parsed as JSON.", e);
-            }
-          };
-
-          reader.onerror = function() {
-            alert("There was an error reading the file. Please read documentation for more information.")
-            console.error("There was an error reading the file.");
-          };
-          
-          reader.readAsText(event.target.files[0]);
-        }
-
-      });
     },
 
     suggestUserInput() {
@@ -218,60 +198,20 @@ export default {
         gmsDatalist.appendChild(option);
       }
 
-      function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-
-      function tabDown(e) {
-        if (e.key === "Tab") {
-          e.preventDefault();
-          const placeholder = input.getAttribute("placeholder");
-          input.value = placeholder;
-        }
-      }
-
-      input.addEventListener("keydown", tabDown);
-      
-
-      function enterDown(e) {
-        if (e.key === "Enter") {
-          this.userName = input.value;
-          this.userName2 = input.value;
-          this.submitForm();
-        }
-      }
-      input.addEventListener("keydown", enterDown.bind(this));
-      
-      function clearPlaceholder() {
-        input.removeAttribute("placeholder");
-      }
-
-      function checkInput() {
-        return input.value !== "";
-      }
-
-      async function suggestInput() {
-        /* eslint-disable no-constant-condition */
+      async function suggestInput(inputElement, suggestions) {
+        let index = 0;
         while (true) {
-          for (let i = 0; i < randGms.length; i++) {
-            if (checkInput()) {
-              clearPlaceholder();
-              return;
-            } else {
-              input.removeAttribute("placeholder");
-              void input.offsetWidth;
-              input.setAttribute("placeholder", randGms[i]);
-              await sleep(3000);
-            }
-          }
+          inputElement.setAttribute("placeholder", suggestions[index]);
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          index = (index + 1) % suggestions.length;
         }
       }
 
-      suggestInput(input);
-      suggestInput(input2);
-      }
+      suggestInput(input, randGms);
+      suggestInput(input2, randGms);
+    },
   },
-}
+};
 </script>
 
 <style>

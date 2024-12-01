@@ -1,33 +1,31 @@
+export function clearLocalStorage(userId = null) {
+    if (userId) {
+        // Clear specific user data
+        const prefix = `user_${userId}_`;
+        Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith(prefix)) {
+                localStorage.removeItem(key);
+            }
+        });
+        console.log(`Local storage cleared for user ${userId}`);
+    } else {
+        // Clear all data
+        localStorage.clear();
+        console.log("Global local storage cleared");
+    }
 
-export function clearLocalStorage() {
-    window.localStorage.clear();
-    let inlineStorage = document.getElementById('archivedGames');
-    if (inlineStorage) {
-        inlineStorage.remove()
-        console.log("inline storage cleared")
-    }
-    let inlinePgnStorage = document.getElementById('pgnGames');
-    if (inlinePgnStorage) {
-        inlinePgnStorage.remove()
-        console.log("inline pgn storage cleared")
-    }
-    let inlineOpeningsStorage = document.getElementById('openings');
-    if (inlineOpeningsStorage) {
-        inlineOpeningsStorage.remove()
-        console.log("inline openings storage cleared")
-    }
-    console.log("local storage cleared")
-
+    // Remove inline storage
+    document.querySelectorAll("[id*='Games']").forEach((el) => el.remove());
+    console.log("Inline storage cleared");
 }
 
-export function getPlayerStats() {
-    let playerStats = window.localStorage.getItem("playerStats");
-    return JSON.parse(playerStats);
+export function getPlayerStats(userId) {
+    const stats = localStorage.getItem(`user_${userId}_playerStats`);
+    return stats ? JSON.parse(stats) : null;
 }
 
-export function getUserName() {
-    let userName = window.localStorage.getItem("userName");
-    return userName;
+export function getUserName(userId) {
+    return localStorage.getItem(`user_${userId}_userName`) || null;
 }
 
 export function utcToHuman(unixTimestamp) {
@@ -52,100 +50,97 @@ export function getFormattedTimestamp() {
     return `${twoDigitYear}${month}${day}${hour}${minute}`;
 }
 
-export function getLargestTimeClass() {
-
-    let timeClassCount = {}
-    let playerStats = getPlayerStats()
-
-    // eslint-disable-next-line no-prototype-builtins
-    if (playerStats.hasOwnProperty("chess_bullet")) {
-        let record = playerStats.chess_bullet.record
-        let total = (record.win + record.loss + record.draw)
-        timeClassCount["bullet"] = total
-    }
-    // eslint-disable-next-line no-prototype-builtins
-    if (playerStats.hasOwnProperty("chess_blitz")) {
-        let record = playerStats.chess_blitz.record
-        let total = (record.win + record.loss + record.draw)
-        timeClassCount["blitz"] = total
-    }
-    // eslint-disable-next-line no-prototype-builtins
-    if (playerStats.hasOwnProperty("chess_rapid")) {
-        let record = playerStats.chess_rapid.record
-        let total = (record.win + record.loss + record.draw)
-        timeClassCount["rapid"] = total
-    }
-    // eslint-disable-next-line no-prototype-builtins
-    if (playerStats.hasOwnProperty("chess_daily")) {
-        let record = playerStats.chess_daily.record
-        let total = (record.win + record.loss + record.draw)
-        timeClassCount["daily"] = total
+export function getLargestTimeClass(userId) {
+    const playerStats = getPlayerStats(userId);
+    if (!playerStats) {
+        console.error(`No stats found for user ${userId}`);
+        return null;
     }
 
-    let max = 0;
-    let maxClass = "rapid";
+    const timeClassCount = {};
+    const timeClasses = ["chess_bullet", "chess_blitz", "chess_rapid", "chess_daily"];
 
-    for (let timeClass in timeClassCount) {
-        const count = timeClassCount[timeClass];
-        if (count > max) {
-            maxClass = timeClass
-            max = count
+    timeClasses.forEach((timeClass) => {
+        if (playerStats.hasOwnProperty(timeClass)) {
+            const record = playerStats[timeClass].record;
+            timeClassCount[timeClass] = record.win + record.loss + record.draw;
+        }
+    });
+
+    let maxClass = null;
+    let maxCount = 0;
+    for (const [timeClass, count] of Object.entries(timeClassCount)) {
+        if (count > maxCount) {
+            maxClass = timeClass;
+            maxCount = count;
         }
     }
-    return maxClass
+
+    return maxClass;
 }
 
+export async function fetchUserStats(userName, userId) {
+    const playerStatsUrl = `https://api.chess.com/pub/player/${userName}/stats`;
 
-export async function fetchUserStats(userName) {
-    let playerStatsUrl = `https://api.chess.com/pub/player/${userName}/stats`;
-    
     try {
-      let playerStatsRes = await fetch(playerStatsUrl);
-  
-      // Add a check to see if the fetch request was successful
-      if (!playerStatsRes.ok) {
-        throw new Error(`HTTP error! status: ${playerStatsRes.status}`);
-      }
-  
-      return playerStatsRes; 
+        const response = await fetch(playerStatsUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const stats = await response.json();
+
+        // Save stats to localStorage
+        localStorage.setItem(`user_${userId}_playerStats`, JSON.stringify(stats));
+        localStorage.setItem(`user_${userId}_userName`, userName);
+        console.log(`Stats fetched and saved for user ${userId}`);
+        return stats;
     } catch (error) {
-      console.error(`There was a problem with the fetch operation: ${error.message}`);
-      // Return an error code or a relevant error object
-      return { error: true, message: error.message };
+        console.error(`Failed to fetch stats for ${userName}:`, error);
+        return { error: true, message: error.message };
     }
-  }
-
-
-// gets all games ever played by user
-export async function fetchArchiveUrls(userName) {
-    let archiveUrl = `https://api.chess.com/pub/player/${userName}/games/archives`;
-    let response = await fetch(archiveUrl);
-    return response; 
 }
 
-export function logAPIRequest(userName) {
-    const apiUri = "https://chessinsights.xyz" // wonder if I should change this to the actual api uri
+export async function fetchArchiveUrls(userName, userId) {
+    const archiveUrl = `https://api.chess.com/pub/player/${userName}/games/archives`;
+
+    try {
+        const response = await fetch(archiveUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const archives = await response.json();
+
+        // Save archives to localStorage
+        localStorage.setItem(`user_${userId}_archives`, JSON.stringify(archives));
+        console.log(`Archives fetched and saved for user ${userId}`);
+        return archives;
+    } catch (error) {
+        console.error(`Failed to fetch archives for ${userName}:`, error);
+        return { error: true, message: error.message };
+    }
+}
+
+export function logAPIRequest(userName, userId) {
+    const apiUri = "https://chessinsights.xyz";
     fetch(`${apiUri}/api/logRequest`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify({uname: userName}),
-    })
-    .catch((error) => {
-        console.error('Error:', error);
+        body: JSON.stringify({ uname: userName, userId }),
+    }).catch((error) => {
+        console.error(`Error logging API request for user ${userId}:`, error);
     });
 }
 
-
 export function getResult(result) {
     if (result === "win") {
-      return "win";
-    } 
-    else if (result === "resigned" || result === "timeout" || result === "checkmated" || result === "abandoned") {
-      return "loss";
+        return "win";
+    } else if (["resigned", "timeout", "checkmated", "abandoned"].includes(result)) {
+        return "loss";
+    } else {
+        return "draw";
     }
-    else {
-      return "draw";
-    }
-  }
+}
